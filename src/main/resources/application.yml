@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    #Протокол:драйвер:"стартует в оперативной памяти!!!:название
+    url: jdbc:h2:mem:test
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+      #//проблемы с показом одного продукта:(
+  #spring:
+    #jackson:
+      #serialization: fail-on-empty-beans= false
+  jpa:
+    #Печатает в лог-консоль произведенные запросы
+    show-sql: true
+    #Диалект
+    database-platform: org.hibernate.dialect.H2Dialect
+    #Авто-создание БД
+    hibernate:
+      ddl-auto: create
+
+  #Что бы могли подключиться к базе H2 через браузер
+  #localhost:8080/h2-console
+  h2:
+    console:
+      enabled: true
+  #
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.xml
