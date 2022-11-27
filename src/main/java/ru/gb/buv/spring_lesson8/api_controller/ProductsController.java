@@ -2,17 +2,18 @@
 package ru.gb.buv.spring_lesson8.api_controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.gb.buv.spring_lesson8.entity.Product;
 import ru.gb.buv.spring_lesson8.service.ProductService;
+
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
 @RequestMapping("/app") // http://localhost:8080/ - отправная точка (index.html)!!!
 public class ProductsController {
-    Integer offset = 0;
-    Integer limit = 10;
+/*    Integer offset = 0;
+    Integer limit = 10;*/
     @Autowired
     ProductService productService;
 //*********************************
@@ -40,25 +41,18 @@ public List<Product> onStartApp(){
 
     //Пагинация
     @GetMapping
-    public List<Product> getPartList(
-            /*@RequestParam*//*(value = "offset", defaultValue = "0")*//* Integer offset,
-            @RequestParam*//*(value = "limit", defaultValue = "10")*//* Integer limit*/){
-        List<Product> partList = productService.getPage(offset,limit).stream().toList();
-        return partList;
+    //Без проверок и алертов, главное - работает:)))-> не понятно с этим JS....
+    public List<Product> getList(
+            @RequestParam(value = "offset", defaultValue = "0") Integer offset,
+            @RequestParam(value = "limit", defaultValue = "10") Integer limit){
+        return productService.getPage(offset,limit).stream().toList();
     }
-    @GetMapping("/inc")
-    public Integer increment(){
-        offset++;
-        return offset;
-    }
-    @GetMapping("/dec")
-    public Integer decrement(){
-        if(offset - 1 >= 0){
-            offset--;
-        }else{
-            offset = 0;
-        }
-        return offset;
+    @GetMapping("/change_page")
+    //Без проверок и алертов, главное - работает:)))
+    public List<Product> changePage(
+            @RequestParam(value = "offset") Integer offset,
+            @RequestParam(value = "limit") Integer limit){
+        return productService.getPage(offset,limit).stream().toList();
     }
 
     //Получение сущности по id

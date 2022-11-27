@@ -59,10 +59,10 @@
         </label>
             <button class="btn btn-success" type="submit" >Сохранить товар</button>
     </form>
-    <div class="container" ng-controller="indexController">
+    <div class="container">
 
-        <button class="btn btn-secondary" ng-click="pageP()" >Предыдущая страница </button>
-        <button class="btn btn-primary" ng-click="pageN()" >Следующая страница</button>
+        <button class="btn btn-secondary"  ng-click="change_page(- 1, 10)" >Предыдущая страница </button>
+        <button class="btn btn-primary" ng-click="change_page(1, 10)" >Следующая страница</button>
     </div>
 
 </div>
