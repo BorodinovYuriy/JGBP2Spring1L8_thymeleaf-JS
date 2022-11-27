@@ -4,6 +4,8 @@ package ru.gb.buv.spring_lesson8.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ public class ProductService {
         //только таким можно запросом вернуть (не как на уроке), так как есть вариант с null...
         return productRepository.findById(id).get();
     }
+
     public Product createProduct(String title, Long cost){
         Product product = new Product();
         product.setTitle(title);
@@ -48,8 +51,6 @@ public class ProductService {
         return productRepository.findAllByCostBetween(min,max);
 
     }
-    /*1. Создать сущность «Товар» (id, название, стоимость) и соответствующую таблицу в БД.
-    Заполнить таблицу тестовыми данными (20 записей).*/
     //*********Код начальной инициализации***********
     @Transactional//-по логике - надо...
     @EventListener(ApplicationReadyEvent.class)
@@ -62,4 +63,19 @@ public class ProductService {
     public void saveProduct(Product product){
         productRepository.save(product);
     }
+
+    public Long getCount() {
+        return productRepository.count();
+    }
+
+    public Page<Product> getPage(Integer offset, Integer limit) {
+        return productRepository.findAll(PageRequest.of(offset, limit, Sort.by(Sort.Direction.ASC, "id")));
+
+    }
+    /*public List<Product> getRangedList(Long partitionIndex, Long countRange){
+        Long startPosition = partitionIndex * countRange;
+        return  productRepository.findAllByIdLimitAndOffset(countRange,startPosition);
+
+    }*/
+
 }
